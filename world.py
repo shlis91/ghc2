@@ -3,8 +3,8 @@ import logging
 from typing import List, Callable, NoReturn, NamedTuple
 
 from objects.location import Location
-from objects.location import Warehouse
-from objects.location import Order
+from objects.warehouse import Warehouse
+from objects.order import Order
 
 
 logging.basicConfig(level = logging.INFO)
@@ -75,7 +75,7 @@ class World:
                     if name == "W":
                         cmd += task.args[0]
                     else:
-                        facility_id = task.args[0]
+                        facility_id = task.args[0].id
                         product = task.args[1]
                         amount = task.args[2]
                         cmd += str(facility_id) + str(product) + str(amount)
