@@ -31,14 +31,27 @@ def _requires_location(func):
 
 class Drone:
     ID = 0
-    def __init__(self, location: Location):
+
+    def __init__(self, location: Location, product_weights, max_carry_weight):
         self.drone_id: int = Drone.ID
         self.location: Location = location
 
         self.task_list: List[Task] = list()
         self.inventory: List[int] = list()
+
+        self.product_weights = product_weights
+        self.max_carry_weight = max_carry_weight
+
         Drone.ID += 1
 
+    @property
+    def weight(self):
+        weight: int = 0
+
+        for product_id in self.inventory:
+            weight += self.product_weights[product_id]
+
+        return weight
 
     @property
     def current_task(self) -> Task:
