@@ -16,6 +16,19 @@ class Task(NamedTuple):
         return self.func.__name__.upper()
 
 
+def _requires_location(func):
+    """ Runs before a drone task that requires the drone to be in a location.
+    If the drone isn't yet in the location, it will move towards it without running the function.
+    Else the function will run. """
+    @wraps(func)
+    def wrapper(self: Drone, order: Order) -> NoReturn:
+        if self.location != order.location:
+            self.location = self.location.get_next_location_in_path(self.destination)
+        else:
+            func(order)
+    return wrapper
+
+
 class Drone:
     def __init__(self, drone_id: int, location: Location):
         self.drone_id: int = drone_id
@@ -23,19 +36,6 @@ class Drone:
 
         self.task_list: List[Task] = list()
         self.inventory: List[int] = list()
-
-    @staticmethod
-    def _requires_location(func):
-        """ Runs before a drone task that requires the drone to be in a location.
-        If the drone isn't yet in the location, it will move towards it without running the function.
-        Else the function will run. """
-        @wraps(func)
-        def wrapper(self: Drone, order: Order) -> NoReturn:
-            if self.location != order.location:
-                self.location = self.location.get_next_location_in_path(self.destination)
-            else:
-                func(order)
-        return wrapper
 
     @property
     def current_task(self) -> Task:
