@@ -72,9 +72,7 @@ class Drone:
     def _deliver(self, order: Order):
         """ Contains the logic for delivery, runs each turn while the drone is in delivery mode. """
         for product_id in order.products:
-            if product_id in self.inventory:
-                self.inventory.remove(product_id)
-                order.products.remove(product_id)
+            self.inventory.remove(product_id)
 
     @_requires_location
     def _load(self, warehouse: Warehouse, product_id: int, amount: int):

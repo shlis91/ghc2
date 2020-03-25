@@ -16,6 +16,8 @@ def take_care_of_order(d, w, order):
         if pl + pw > w.max_payload:
             # print("hihi")
             d.deliver(order)
+            while (d.current_task is not None):
+                d.do_turn()
         else:
             for wh in w.warehouses:
                 if wh.stocks[pid] != 0:
@@ -37,6 +39,8 @@ def take_care_of_order(d, w, order):
     if len(d.inventory) > 0:
         # print("hihihi")
         d.deliver(order)
+        while (d.current_task is not None):
+            d.do_turn()
 
 def strategy_0(f_src, f_dst):
 
