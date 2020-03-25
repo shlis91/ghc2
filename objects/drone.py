@@ -23,7 +23,7 @@ class Drone:
 
     @staticmethod
     def _requires_location(func):
-        """ Runs before a drone action that requires the drone to be in a location.
+        """ Runs before a drone task that requires the drone to be in a location.
         If the drone isn't yet in the location, it will move towards it without running the function.
         Else the function will run. """
         @wraps(func)
@@ -91,14 +91,14 @@ class Drone:
         self.task_list.append(task)
 
     def turns_left(self) -> int:
-        """ Amount of turns until the drone finishes his current action. """
+        """ Amount of turns until the drone finishes his current task. """
         return self.location.distance(self.current_task.destination) + 1
 
     def do_turn(self):
         """ Need to be called every turn,
-        causes the drone the do his current action
+        causes the drone the do his current task
         """
-        action = self.current_task
+        task = self.current_task
 
-        if action is not None:
-            action.func(*action.args)
+        if task is not None:
+            task.func(*task.args)
