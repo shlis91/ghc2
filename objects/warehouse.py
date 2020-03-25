@@ -8,12 +8,12 @@ class Warehouse:
         self.location = loc
         self.stocks = stocks
 
-    def get(product: int, amount: int):
+    def get(self, product: int, amount: int):
         if self.stocks[product] < amount:
-            rasie "Not enough stock"
+            raise Exception("Not enough stock")
 
         self.stocks[product] -= amount
 
-    def put(product: int, amount: int):
+    def put(self, product: int, amount: int):
         self.stock[product] += amount
 

@@ -1,4 +1,4 @@
-from typing import List, Callable, NoReturn, NamedTuple
+from typing import Dict
 
 from objects.location import Location
 
@@ -8,10 +8,10 @@ class Order:
         self.location = location
         self.products = products
 
-    def put(product: int, amount: int):
+    def put(self, product: int, amount: int):
         if product not in self.products:
-            raise "Unasked for product unload"
+            raise Exception("Unasked for product unload")
         elif self.products[product] < amount:
-            raise "Too much delivered"
+            raise Exception("Too much delivered")
         self.products[product] -= amount
 
