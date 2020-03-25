@@ -23,6 +23,7 @@ def _requires_location(func):
     @wraps(func)
     def wrapper(self: "Drone", x, *args) -> NoReturn:
         self.turns += self.location.distance(self.destination)
+        self.location = self.destination
         func(self, x, *args)
         self.finished_task_list.append(self.task_list.pop())
 
