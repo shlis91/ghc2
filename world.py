@@ -3,36 +3,12 @@ import logging
 from typing import List, Callable, NoReturn, NamedTuple
 
 from objects.location import Location
+from objects.location import Warehouse
+from objects.location import Order
+
 
 logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger('world')
-
-
-class Warehouse:
-    def __init__(self, loc: Location, stocks: List[int]):
-        self.location = loc
-        self.stocks = stocks
-
-    def get(product: int, amount: int):
-        if self.stocks[product] < amount:
-            rasie "Not enough stock"
-
-        self.stocks[product] -= amount
-
-    def put(product: int, amount: int):
-        self.stock[product] += amount
-
-
-class Order:
-    def __init__(self, products: Dict[int, int]):
-        self.products = products
-
-    def put(product: int, amount: int):
-        if product not in self.products:
-            raise "Unasked for product unload"
-        elif self.products[product] < amount:
-            raise "Too much delivered"
-        self.products[product] -= amount
 
 
 class World:
