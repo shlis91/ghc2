@@ -52,7 +52,7 @@ class World:
                 items = [int(x) for x in f.readline().split()]
                 cart = {}
                 for item in items:
-                    cart[item] = cart.setdefault(item, 0) 
+                    cart[item] = cart.setdefault(item, 0) + 1
                 self.orders.append(Order(Location(row, col), cart))
 
         logger.info("World is of size %d X %d", rows, cols)
@@ -69,18 +69,25 @@ class World:
     def write_results(self, file_name: str, drones: List[Drone]):
         with open(file_name, 'w') as f:
             for drone in drones:
-                cmd = str(drone.drone_id)
                 for task in drone.task_list:
                     name = task.name()
-                    cmd += name
                     if name == "W":
-                        cmd += task.args[0]
-                    else:
+                        cmd = ' '.join([str(drone.drone_id), name,task.args[0]])
+                    elif name in ['L', 'U']:
+                        print(name)
+                        print(task.args)
                         facility_id = task.args[0].id
                         product = task.args[1]
                         amount = task.args[2]
-                        cmd += str(facility_id) + str(product) + str(amount)
-            f.write(cmd + "\n")
+                        cmd = ' '.join([str(drone.drone_id), name, str(facility_id), str(product), str(amount)])
+                    else: # D
+                        order = task.args[0]
+                        order_id = order.id
+                        for product_id, amount in order.products.items():
+                            cmd = ' '.join([str(drone.drone_id), name, str(order_id), str(product_id), str(amount)])
+
+
+                    f.write(cmd + "\n")
 
 def main():
     world = World("dataset/busy_day.in")

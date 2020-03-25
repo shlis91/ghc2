@@ -6,25 +6,33 @@ files = ['dataset/busy_day.in',
 
 def take_care_of_order(d, w, order):
     pl = 0
-
+    # print("started")
+    # print(order.products.items())
     for p in order.products.items():
         pid = p[0]
         pnum = p[1]
         pw = w.products[pid]
         if pl + pw > w.max_payload:
-            d.deliver_all(order)
+            # print("hihi")
+            d.deliver(order)
         else:
             for wh in w.warehouses:
                 if wh.stocks[pid] != 0:
-                    load_amount = min(int(pl / pw), wh.stocks[pid], pnum)
+                    load_amount = min(int((w.max_payload - pl) / pw), wh.stocks[pid], pnum)
+                    print(load_amount)
                     d.load(wh, pid, load_amount)
                     pnum -= load_amount
                     pl -= load_amount * pw
                     if pnum == 0:
                         break
                     elif pl < pw:
-                        d.deliver_all(order)
+                        # print("hi")
+                        d.deliver(order)
                         pl = 0
+    print(d.inventory)
+    if len(d.inventory) > 0:
+        # print("hihihi")
+        d.deliver(order)
 
 def strategy_0(f_src, f_dst):
 
