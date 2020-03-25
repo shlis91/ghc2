@@ -71,7 +71,7 @@ class World:
         with open(file_name, 'w') as f:
             cmds = []
             for drone in drones:
-                for task in drone.task_list:
+                for task in drone.finished_task_list:
                     name = task.name()
                     if name == "W":
                         cmd = ' '.join([str(drone.drone_id), name,task.args[0]])

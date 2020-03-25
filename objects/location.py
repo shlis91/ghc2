@@ -1,6 +1,6 @@
 from typing import NamedTuple
 import math
-
+from math import ceil, sqrt, pow
 
 class Location(NamedTuple):
     """ Describes a location, allows distance calculation """
@@ -8,7 +8,7 @@ class Location(NamedTuple):
     y: int
 
     def distance(self, destination: 'Location') -> int:
-        return round(math.sqrt((self.x - destination.x) ^ 2 + (self.y - destination.y) ^ 2))
+        return int(ceil(sqrt((self.x - destination.x) ** 2 + (self.y - destination.y) ** 2)))
 
     def get_next_location_in_path(self, destination: 'Location') -> 'Location':
         sign = lambda x: 0 if (x == 0) else math.copysign(1, x)
