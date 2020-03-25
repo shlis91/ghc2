@@ -80,7 +80,7 @@ class Drone:
 
     def deliver(self, order: Order):
         """ Order the drone to deliver an order """
-        task: Task = Task(self._load, order.location, (order, ))
+        task: Task = Task(self._deliver, order.location, (order, ))
 
         self.task_list.append(task)
 
