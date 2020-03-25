@@ -31,7 +31,6 @@ class World:
         with open(file_name, 'rb') as f:
             rows, cols, drone_count, turns, max_payload = [int(x) for x in f.readline().split()]
             self.grid = Location(rows, cols)
-            self.drones = [Drone(Location(0,0)) for _ in range(drone_count)]
             self.turns = turns
             self.max_payload = max_payload
 
@@ -54,6 +53,8 @@ class World:
                 for item in items:
                     cart[item] = cart.setdefault(item, 0) + 1
                 self.orders.append(Order(Location(row, col), cart))
+
+        self.drones = [Drone(Location(0,0), self.products, self.max_payload) for _ in range(drone_count)]
 
         logger.info("World is of size %d X %d", rows, cols)
         logger.info("There are %d drones", drone_count)
