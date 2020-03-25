@@ -65,6 +65,21 @@ class World:
         logger.debug(self.warehouses)
         logger.debug(self.orders)
 
+    def write_results(self, file_name: str, drones: List[Drone]):
+        with open(file_name, 'wb') as f: 
+            for drone in drones:
+                cmd = str(drone.drone_id)
+                for task in drone.task_list:
+                    name = task.name()
+                    cmd += name
+                    if name == "W":
+                        cmd += task.args[0]
+                    else:
+                        facility_id = task.args[0]
+                        product = task.args[1]
+                        amount = task.args[2]
+                        cmd += str(facility_id) + str(product) + str(amount)
+            f.write(cmd + "\n")
 
 def main():
     world = World("dataset/busy_day.in")
