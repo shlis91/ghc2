@@ -1,8 +1,8 @@
-from objects import drone
 from world import World
 files = ['data_set/busy_dat.in',
          'data_set/mother_of_all_warehouses.in',
          'data_set/redundancy.in']
+
 
 def take_care_of_order(d, w, order):
     pl = 0
@@ -25,7 +25,6 @@ def take_care_of_order(d, w, order):
                     elif pl < pw:
                         d.deliver_all(order)
                         pl = 0
-f0 = files[0]
 
 def strategy_0(f_src, f_dst):
 
@@ -37,8 +36,9 @@ def strategy_0(f_src, f_dst):
         take_care_of_order(d, w, order)
         drone_index = (drone_index + 1) % len(w.drones)
 
-    w.write(f_dst)
+    w.write_results(f_dst, w.drones)
 
+strategy_0(f[0], 'outputs/busy_day.out')
 
 
 
