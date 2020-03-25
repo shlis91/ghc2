@@ -13,7 +13,7 @@ class Task(NamedTuple):
     args: tuple = tuple()
 
     def name(self):
-        return self.func.__name__.upper()
+        return self.func.__name__.upper()[1]
 
 
 def _requires_location(func):
