@@ -99,6 +99,10 @@ class Drone:
 
     def load(self, warehouse: Warehouse, product_id: int, amount: int):
         """ Order the drone to load a certain amount of product """
+
+        if self.weight + self.product_weights[product_id] * amount > self.max_carry_weight:
+            raise Exception("Drone will exceed max carry weight!")
+
         task: Task = Task(self._load, warehouse.location, (warehouse, product_id, amount))
 
         self.task_list.append(task)
