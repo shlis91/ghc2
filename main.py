@@ -7,7 +7,7 @@ files = ['dataset/busy_day.in',
 def take_care_of_order(d, w, order):
     pl = 0
 
-    for p in order.products.items:
+    for p in order.products.items():
         pid = p[0]
         pnum = p[1]
         pw = w.products[pid]
@@ -15,7 +15,7 @@ def take_care_of_order(d, w, order):
             d.deliver_all(order)
         else:
             for wh in w.warehouses:
-                if wh.stock[pid] != 0:
+                if wh.stocks[pid] != 0:
                     load_amount = min(int(pl / pw), wh.stocks[pid], pnum)
                     d.load(wh, pid, load_amount)
                     pnum -= load_amount

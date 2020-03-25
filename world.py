@@ -67,7 +67,7 @@ class World:
         logger.debug(self.orders)
 
     def write_results(self, file_name: str, drones: List[Drone]):
-        with open(file_name, 'wb') as f: 
+        with open(file_name, 'w') as f:
             for drone in drones:
                 cmd = str(drone.drone_id)
                 for task in drone.task_list:
