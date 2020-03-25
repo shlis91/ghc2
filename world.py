@@ -9,8 +9,8 @@ logger = logging.getLogger('world')
 
 
 class Warehouse:
-    def __init__(self, location: Location, stocks: List[int]):
-        self.location = location
+    def __init__(self, loc: Location, stocks: List[int]):
+        self.location = loc
         self.stocks = stocks
 
     def get(product: int, amount: int):
@@ -35,7 +35,6 @@ class Order:
         self.products[product] -= amount
 
 
-
 class World:
     def __init__(self, file_name):
         self.warehouses = []
@@ -45,7 +44,11 @@ class World:
         self.turns = 0
         self.drones = 0
         self.max_payload = 0
+        self.time = 0
         self.parse_world(file_name)
+
+    def step():
+        self.time += 1
 
     def parse_world(self, file_name: str) -> NoReturn:
         with open(file_name, 'rb') as f:
@@ -63,14 +66,17 @@ class World:
             for wi in range(warehouse_count):
                 row, col = [int(x) for x in f.readline().split()]
                 stocks = [int(x) for x in f.readline().split()]
-                self.warehouses.append(((row, col), stocks))
+                self.warehouses.append(Warehose(Location(row, col), stocks))
 
             order_count = int(f.readline())
             for ci in range(order_count):
                 row, col = [int(x) for x in f.readline().split()]
                 order_items_count = int(f.readline())
                 items = [int(x) for x in f.readline().split()]
-                self.orders.append(((row, col), items))
+                cart = {}
+                for item in items:
+                    cart[item] = cart.setdefault(item, 0) 
+                self.orders.append(Order(Location(row, col), cart))
 
         logger.info("World is of size %d X %d", rows, cols)
         logger.info("There are %d drones", drone_count)
