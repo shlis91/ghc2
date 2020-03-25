@@ -1,8 +1,39 @@
 import itertools
 import logging
+from typing import List, Callable, NoReturn, NamedTuple
+
+from objects.location import Location
 
 logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger('world')
+
+
+class Warehouse:
+    def __init__(self, location: Location, stocks: List[int]):
+        self.location = location
+        self.stocks = stocks
+
+    def get(product: int, amount: int):
+        if self.stocks[product] < amount:
+            rasie "Not enough stock"
+
+        self.stocks[product] -= amount
+
+    def put(product: int, amount: int):
+        self.stock[product] += amount
+
+
+class Order:
+    def __init__(self, products: Dict[int, int]):
+        self.products = products
+
+    def put(product: int, amount: int):
+        if product not in self.products:
+            raise "Unasked for product unload"
+        elif self.products[product] < amount:
+            raise "Too much delivered"
+        self.products[product] -= amount
+
 
 
 class World:
@@ -10,16 +41,16 @@ class World:
         self.warehouses = []
         self.orders = []
         self.products = []
-        self.grid = (0, 0)
+        self.grid = Location(0, 0)
         self.turns = 0
         self.drones = 0
         self.max_payload = 0
         self.parse_world(file_name)
 
-    def parse_world(self, file_name):
+    def parse_world(self, file_name: str) -> NoReturn:
         with open(file_name, 'rb') as f:
             rows, cols, drone_count, turns, max_payload = [int(x) for x in f.readline().split()]
-            self.grid = (rows, cols)
+            self.grid = Location(rows, cols)
             self.drones = drone_count
             self.turns = turns
             self.max_payload = max_payload
