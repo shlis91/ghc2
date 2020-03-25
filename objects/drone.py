@@ -22,12 +22,10 @@ def _requires_location(func):
     Else the function will run. """
     @wraps(func)
     def wrapper(self: "Drone", x, *args) -> NoReturn:
-        print(self.location)
-        print(self.inventory)
-        if self.location != x.location:
-            self.location = self.location.get_next_location_in_path(self.destination)
-        else:
-            func(self, x, *args)
+        self.turns += self.location.distance(self.destination)
+        func(self, x, *args)
+        self.finished_task_list.append(self.task_list.pop())
+
     return wrapper
 
 
@@ -38,7 +36,11 @@ class Drone:
         self.drone_id: int = Drone.ID
         self.location: Location = location
 
+        self.turns = 0
+
         self.task_list: List[Task] = list()
+        self.finished_task_list: List[Task] = list()
+
         self.inventory: List[int] = list()
 
         self.product_weights = product_weights
@@ -71,20 +73,13 @@ class Drone:
         for product_id in order.products:
             self.inventory.remove(product_id)
 
-        self.task_list.pop()
-
     @_requires_location
     def _load(self, warehouse: Warehouse, product_id: int, amount: int):
         """ Contains the logic for loading, runs each turn while the drone is in loading mode. """
         warehouse.get(product_id, amount)
-        print("load")
-        print(product_id)
-        print(amount)
 
         for _ in range(amount):
             self.inventory.append(product_id)
-
-        self.task_list.pop()
 
     @_requires_location
     def _unload(self, warehouse: Warehouse, product_id: int, amount: int):
@@ -93,8 +88,6 @@ class Drone:
             self.inventory.remove(product_id)
 
         warehouse.put(product_id, amount)
-
-        self.task_list.pop()
 
     def deliver(self, order: Order):
         """ Order the drone to deliver an order """
