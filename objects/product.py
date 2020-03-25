@@ -1,7 +1,7 @@
 from typing import NamedTuple
 
 
-class Package(NamedTuple):
+class Product(NamedTuple):
     """ Describes a package object """
     package_id: int
     weight: int
