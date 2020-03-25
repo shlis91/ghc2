@@ -20,32 +20,43 @@ class Drone:
 
         self.current_action: ActionTuple = None
 
-    def _deliver(self, destination: Location, package: Package) -> NoReturn:
+    @property
+    def destination(self) -> Location:
+        if self.current_action is not None:
+            return self.current_action.destination
+
+    def _deliver(self, package: Package) -> NoReturn:
         """ Contains the logic for delivery,
         runs each turn while the drone is in delivery mode.
 
-        :param destination: The delivery destination
         :param package: The package to be delivered
         """
-        pass
+        if self.location == self.destination:
+            self.current_action = None
+        else:
+            self.location = self.location.get_next_location_in_path(self.destination)
 
-    def _load(self, destination: Location, package: Package) -> NoReturn:
+    def _load(self, package: Package) -> NoReturn:
         """ Contains the logic for loading,
         runs each turn while the drone is in loading mode.
 
-        :param destination: The loading destination
         :param package: The package to be loaded
         """
-        pass
+        if self.location == self.destination:
+            self.current_action = None
+        else:
+            self.location = self.location.get_next_location_in_path(self.destination)
 
-    def _unload(self, destination: Location, package: Package) -> NoReturn:
+    def _unload(self, package: Package) -> NoReturn:
         """ Contains the logic for unloading,
         runs each turn while the drone is in unloading mode.
 
-        :param destination: The unloading destination
         :param package: The package to be unloaded
         """
-        pass
+        if self.location == self.destination:
+            self.current_action = None
+        else:
+            self.location = self.location.get_next_location_in_path(self.destination)
 
     def _drone_action_logic(self, func: Callable, destination: Location, package: Package, dry: bool = False):
         """ Commands the drone to deliver the package to the destination.
@@ -90,4 +101,6 @@ class Drone:
         causes the drone the do his current action
         """
         action = self.current_action
-        action.func(destionation=action.destination, package=action.package, *action.args, **action.kwargs)
+
+        if action is not None:
+            action.func(package=action.package, *action.args, **action.kwargs)
