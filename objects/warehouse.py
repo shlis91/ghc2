@@ -4,9 +4,13 @@ from objects.location import Location
 
 
 class Warehouse:
+    ID = 0
+
     def __init__(self, loc: Location, stocks: List[int]):
+        self.id = ID
         self.location = loc
         self.stocks = stocks
+        ID += 1
 
     def get(self, product: int, amount: int):
         if self.stocks[product] < amount:
