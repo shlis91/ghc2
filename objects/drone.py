@@ -12,6 +12,9 @@ class Task(NamedTuple):
 
     args: tuple = tuple()
 
+    def name(self):
+        return self.func.__name__.upper()
+
 
 class Drone:
     def __init__(self, drone_id: int, location: Location):
