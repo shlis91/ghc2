@@ -76,8 +76,6 @@ class World:
                     if name == "W":
                         cmd = ' '.join([str(drone.drone_id), name,task.args[0]])
                     elif name in ['L', 'U']:
-                        print(name)
-                        print(task.args)
                         facility_id = task.args[0].id
                         product = task.args[1]
                         amount = task.args[2]

@@ -20,8 +20,9 @@ def take_care_of_order(d, w, order):
             for wh in w.warehouses:
                 if wh.stocks[pid] != 0:
                     load_amount = min(int((w.max_payload - pl) / pw), wh.stocks[pid], pnum)
-                    print(load_amount)
                     d.load(wh, pid, load_amount)
+                    while (d.current_task is not None):
+                        d.do_turn()
                     pnum -= load_amount
                     pl += load_amount * pw
                     if pnum == 0:
@@ -29,8 +30,10 @@ def take_care_of_order(d, w, order):
                     elif pl < pw:
                         # print("hi")
                         d.deliver(order)
+                        while (d.current_task is not None):
+                            d.do_turn()
                         pl = 0
-    print(d.inventory)
+                print(d.inventory)
     if len(d.inventory) > 0:
         # print("hihihi")
         d.deliver(order)
@@ -43,7 +46,10 @@ def strategy_0(f_src, f_dst):
     for order in w.orders:
         d = w.drones[drone_index]
         take_care_of_order(d, w, order)
+        print(d.task_list)
         drone_index = (drone_index + 1) % len(w.drones)
+        break
+
 
     w.write_results(f_dst, w.drones)
 

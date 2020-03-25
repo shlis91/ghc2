@@ -21,11 +21,13 @@ def _requires_location(func):
     If the drone isn't yet in the location, it will move towards it without running the function.
     Else the function will run. """
     @wraps(func)
-    def wrapper(self: "Drone", order: Order) -> NoReturn:
-        if self.location != order.location:
+    def wrapper(self: "Drone", x, *args) -> NoReturn:
+        print(self.location)
+        print(self.inventory)
+        if self.location != x.location:
             self.location = self.location.get_next_location_in_path(self.destination)
         else:
-            func(order)
+            func(self, x, *args)
     return wrapper
 
 
@@ -75,6 +77,9 @@ class Drone:
     def _load(self, warehouse: Warehouse, product_id: int, amount: int):
         """ Contains the logic for loading, runs each turn while the drone is in loading mode. """
         warehouse.get(product_id, amount)
+        print("load")
+        print(product_id)
+        print(amount)
 
         for _ in range(amount):
             self.inventory.append(product_id)
