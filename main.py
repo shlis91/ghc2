@@ -1,5 +1,6 @@
 from world import World
-files = ['dataset/busy_day.in',
+files = ['dataset/example.in',
+         'dataset/busy_day.in',
          'dataset/mother_of_all_warehouses.in',
          'dataset/redundancy.in']
 
@@ -22,7 +23,7 @@ def take_care_of_order(d, w, order):
                     print(load_amount)
                     d.load(wh, pid, load_amount)
                     pnum -= load_amount
-                    pl -= load_amount * pw
+                    pl += load_amount * pw
                     if pnum == 0:
                         break
                     elif pl < pw:
@@ -46,7 +47,7 @@ def strategy_0(f_src, f_dst):
 
     w.write_results(f_dst, w.drones)
 
-strategy_0(files[0], 'outputs/busy_day.out')
+strategy_0(files[1], 'outputs/busy_day.out')
 
 
 

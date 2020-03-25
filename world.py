@@ -68,6 +68,7 @@ class World:
 
     def write_results(self, file_name: str, drones: List[Drone]):
         with open(file_name, 'w') as f:
+            cmds = []
             for drone in drones:
                 for task in drone.task_list:
                     name = task.name()
@@ -86,8 +87,9 @@ class World:
                         for product_id, amount in order.products.items():
                             cmd = ' '.join([str(drone.drone_id), name, str(order_id), str(product_id), str(amount)])
 
-
-                    f.write(cmd + "\n")
+                    cmds.append(cmd)
+            cmds = [str(len(cmds))] + cmds
+            f.write('\n'.join(cmds))
 
 def main():
     world = World("dataset/busy_day.in")
