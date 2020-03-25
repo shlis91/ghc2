@@ -96,6 +96,11 @@ class Drone:
 
         self.task_list.append(task)
 
+    def wait(self, duration):
+        task: Task = Task(self._wait, self.destination, (duration,))
+
+        self.task_list.append(task)
+
     def turns_left(self) -> int:
         """ Amount of turns until the drone finishes his current task. """
         return self.location.distance(self.current_task.destination) + 1
