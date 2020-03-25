@@ -5,6 +5,7 @@ from typing import List, Callable, NoReturn, NamedTuple
 from objects.location import Location
 from objects.warehouse import Warehouse
 from objects.order import Order
+from objects.drone import Drone
 
 
 logging.basicConfig(level = logging.INFO)
@@ -18,7 +19,7 @@ class World:
         self.products = []
         self.grid = Location(0, 0)
         self.turns = 0
-        self.drones = 0
+        self.drones = []
         self.max_payload = 0
         self.time = 0
         self.parse_world(file_name)
@@ -30,7 +31,7 @@ class World:
         with open(file_name, 'rb') as f:
             rows, cols, drone_count, turns, max_payload = [int(x) for x in f.readline().split()]
             self.grid = Location(rows, cols)
-            self.drones = drone_count
+            self.drones = [Drone(Location(0,0)) for _ in range(drone_count)]
             self.turns = turns
             self.max_payload = max_payload
 
@@ -42,7 +43,7 @@ class World:
             for wi in range(warehouse_count):
                 row, col = [int(x) for x in f.readline().split()]
                 stocks = [int(x) for x in f.readline().split()]
-                self.warehouses.append(Warehose(Location(row, col), stocks))
+                self.warehouses.append(Warehouse(Location(row, col), stocks))
 
             order_count = int(f.readline())
             for ci in range(order_count):

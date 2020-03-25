@@ -7,10 +7,10 @@ class Warehouse:
     ID = 0
 
     def __init__(self, loc: Location, stocks: List[int]):
-        self.id = ID
+        self.id = Warehouse.ID
         self.location = loc
         self.stocks = stocks
-        ID += 1
+        Warehouse.ID += 1
 
     def get(self, product: int, amount: int):
         if self.stocks[product] < amount:

@@ -21,7 +21,7 @@ def _requires_location(func):
     If the drone isn't yet in the location, it will move towards it without running the function.
     Else the function will run. """
     @wraps(func)
-    def wrapper(self: Drone, order: Order) -> NoReturn:
+    def wrapper(self: "Drone", order: Order) -> NoReturn:
         if self.location != order.location:
             self.location = self.location.get_next_location_in_path(self.destination)
         else:
@@ -30,12 +30,15 @@ def _requires_location(func):
 
 
 class Drone:
-    def __init__(self, drone_id: int, location: Location):
-        self.drone_id: int = drone_id
+    ID = 0
+    def __init__(self, location: Location):
+        self.drone_id: int = Drone.ID
         self.location: Location = location
 
         self.task_list: List[Task] = list()
         self.inventory: List[int] = list()
+        Drone.ID += 1
+
 
     @property
     def current_task(self) -> Task:

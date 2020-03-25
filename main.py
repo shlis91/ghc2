@@ -1,7 +1,7 @@
 from world import World
-files = ['data_set/busy_dat.in',
-         'data_set/mother_of_all_warehouses.in',
-         'data_set/redundancy.in']
+files = ['dataset/busy_day.in',
+         'dataset/mother_of_all_warehouses.in',
+         'dataset/redundancy.in']
 
 
 def take_care_of_order(d, w, order):
@@ -38,7 +38,7 @@ def strategy_0(f_src, f_dst):
 
     w.write_results(f_dst, w.drones)
 
-strategy_0(f[0], 'outputs/busy_day.out')
+strategy_0(files[0], 'outputs/busy_day.out')
 
 
 
