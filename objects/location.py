@@ -11,7 +11,9 @@ class Location(NamedTuple):
         return round(math.sqrt((self.x - destination.x) ^ 2 + (self.y - destination.y) ^ 2))
 
     def get_next_location_in_path(self, destination: 'Location') -> 'Location':
-        new_x: int = self.x + min(math.fabs(self.x - destination.x), 1)
-        new_y: int = self.y + min(math.fabs(self.y - destination.y), 1)
+        sign = lambda x: 0 if (x == 0) else math.copysign(1, x)
+
+        new_x: int = self.x + sign(destination.x - self.x)
+        new_y: int = self.y + sign(destination.y - self.y)
 
         return Location(new_x, new_y)
